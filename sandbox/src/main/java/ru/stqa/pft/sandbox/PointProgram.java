@@ -17,11 +17,11 @@ public class PointProgram {
         DecimalFormat decimalFormat = new DecimalFormat( "#.###" );
 
 
-        System.out.println("Расстояние между точками " + p1 + " и " + p2 + " равно " + decimalFormat.format(Point.distance(p1, p2)));
+        System.out.println("Расстояние между точками " + p1 + " и " + p2 + " равно " + decimalFormat.format(p1.distance(p2)));
 
-        System.out.println("Расстояние между точками " + p3 + " и " + p4 + " равно " + decimalFormat.format(Point.distance(p3, p4)));
+        System.out.println("Расстояние между точками " + p3 + " и " + p4 + " равно " + decimalFormat.format(p3.distance(p4)));
 
-        System.out.println("Расстояние между точками " + p5 + " и " + p6 + " равно " + decimalFormat.format(Point.distance(p5, p6)));
+        System.out.println("Расстояние между точками " + p5 + " и " + p6 + " равно " + decimalFormat.format(p5.distance(p6)));
 
     }
 }
