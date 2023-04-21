@@ -4,10 +4,15 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.Browser;
 
 import java.time.Duration;
 
 public class ApplicationManager {
+    private String browser;
     protected WebDriver wd;
 
     private SessionHelper sessionHelper;
@@ -15,10 +20,23 @@ public class ApplicationManager {
     private GroupHelper groupHelper;
     private ContactHelper contactHelper;
 
+    public ApplicationManager(String browser) {
+        this.browser = browser;
+    }
+
     public void init() {
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--remote-allow-origins=*");
-        wd = new ChromeDriver(options);
+        if (browser.equals(Browser.CHROME.browserName())) {
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments("--remote-allow-origins=*");
+            wd = new ChromeDriver(options);
+        } else if (browser.equals(Browser.EDGE.browserName())){
+            EdgeOptions options = new EdgeOptions();
+            options.addArguments("--remote-allow-origins=*");
+            wd = new EdgeDriver(options);
+        } else if (browser.equals(Browser.FIREFOX.browserName())){
+            wd = new FirefoxDriver();
+        }
+
         wd.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
         wd.get("http://localhost/addressbook/");
 
