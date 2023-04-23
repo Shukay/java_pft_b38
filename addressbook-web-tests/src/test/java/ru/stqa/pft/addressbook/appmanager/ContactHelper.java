@@ -26,7 +26,11 @@ public class ContactHelper extends HelperBase{
         type(By.name("mobile"), contactData.getMobile());
 
         if (creation) {
-            new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
+            if(isElementPresentInList(By.name("new_group"), contactData.getGroup())) {
+                new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
+            } else {
+                new Select(wd.findElement(By.name("new_group"))).selectByValue("[none]");
+            }
         } else {
             Assert.assertFalse(isElementPresent(By.name("new_group")));
         }

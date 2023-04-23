@@ -1,9 +1,7 @@
 package ru.stqa.pft.addressbook.appmanager;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoAlertPresentException;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
+import java.util.List;
 
 public class HelperBase {
     protected WebDriver wd;
@@ -27,7 +25,20 @@ public class HelperBase {
         }
     }
 
-    public boolean isElementPresent(By locator) {
+    public boolean isElementPresentInList (By locator, String text) {
+        click(locator);
+        List<WebElement> Elements = wd.findElements(locator);
+        boolean flag = false;
+        for (WebElement element: Elements) {
+            if (element.getText().contains(text)) {
+                flag = true;
+                break;
+            }
+        }
+    return flag;
+    }
+
+    public boolean isElementPresent (By locator) {
         try {
             wd.findElement(locator);
             return true;
@@ -44,5 +55,4 @@ public class HelperBase {
             return false;
         }
     }
-
 }
