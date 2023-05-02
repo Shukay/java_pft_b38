@@ -15,7 +15,7 @@ public class GroupData {
         this.footer = footer;
     }
 
-    public GroupData(int id, String name, String header, String footer) {
+     public GroupData(int id, String name, String header, String footer) {
         this.id = Integer.MAX_VALUE;
         this.name = name;
         this.header = header;
@@ -64,4 +64,5 @@ public class GroupData {
     public int hashCode() {
         return name != null ? name.hashCode() : 0;
     }
+
 }
