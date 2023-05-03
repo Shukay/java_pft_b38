@@ -10,7 +10,7 @@ public class ContactData {
     private final String group;
 
     public ContactData(String firstname, String lastname, String mobile, String group) {
-        this.id = 0;
+        this.id = Integer.MAX_VALUE;
         this.firstname = firstname;
         this.lastname = lastname;
         this.mobile = mobile;
@@ -18,7 +18,7 @@ public class ContactData {
     }
 
     public ContactData(int id, String firstname, String lastname, String mobile, String group) {
-        this.id = Integer.MAX_VALUE;
+        this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
         this.mobile = mobile;
