@@ -3,34 +3,39 @@ package ru.stqa.pft.addressbook.model;
 import java.util.Objects;
 
 public class ContactData {
-    private int id;
-    private final String firstname;
-    private final String lastname;
-    private final String mobile;
-    private final String group;
-
-    public ContactData(String firstname, String lastname, String mobile, String group) {
-        this.id = Integer.MAX_VALUE;
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.mobile = mobile;
-        this.group = group;
-    }
-
-    public ContactData(int id, String firstname, String lastname, String mobile, String group) {
-        this.id = id;
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.mobile = mobile;
-        this.group = group;
-    }
+    private int id = Integer.MAX_VALUE;
+    private String firstname;
+    private String lastname;
+    private String mobile;
+    private String group;
 
     public int getId() {
         return id;
     }
 
-    public void setId(int max) {
+    public ContactData withId(int max) {
         this.id = max;
+        return this;
+    }
+
+    public ContactData withFirstName(String firstname) {
+        this.firstname = firstname;
+        return this;
+    }
+
+    public ContactData withLastName(String lastname) {
+        this.lastname = lastname;
+        return this;
+    }
+
+    public ContactData withMobile(String mobile) {
+        this.mobile = mobile;
+        return this;
+    }
+
+    public ContactData withGroup(String group) {
+        this.group = group;
+        return this;
     }
 
     public String getFirstname() {
@@ -56,13 +61,15 @@ public class ContactData {
 
         ContactData that = (ContactData) o;
 
+        if (id != that.id) return false;
         if (!Objects.equals(firstname, that.firstname)) return false;
         return Objects.equals(lastname, that.lastname);
     }
 
     @Override
     public int hashCode() {
-        int result = firstname != null ? firstname.hashCode() : 0;
+        int result = id;
+        result = 31 * result + (firstname != null ? firstname.hashCode() : 0);
         result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
         return result;
     }
