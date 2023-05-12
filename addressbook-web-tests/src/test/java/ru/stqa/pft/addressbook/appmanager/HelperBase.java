@@ -1,6 +1,8 @@
 package ru.stqa.pft.addressbook.appmanager;
 
 import org.openqa.selenium.*;
+
+import java.io.File;
 import java.util.List;
 
 public class HelperBase {
@@ -25,7 +27,13 @@ public class HelperBase {
         }
     }
 
-    public boolean isElementPresentInList (By locator, String text) {
+    protected void attach(By locator, File file) {
+        if (file != null) {
+            wd.findElement(locator).sendKeys(file.getAbsolutePath());
+        }
+    }
+
+    public boolean isElementPresentInList(By locator, String text) {
         click(locator);
         List<WebElement> Elements = wd.findElements(locator);
         boolean flag = false;
@@ -38,7 +46,7 @@ public class HelperBase {
     return flag;
     }
 
-    public boolean isElementPresent (By locator) {
+    public boolean isElementPresent(By locator) {
         try {
             wd.findElement(locator);
             return true;
