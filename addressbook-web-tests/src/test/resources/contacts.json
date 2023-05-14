@@ -1,0 +1,17 @@
+[
+  {
+    "firstname": "firstname 0",
+    "lastname": "lastname 0",
+    "mobilePhone": "+71111111110"
+  },
+  {
+    "firstname": "firstname 1",
+    "lastname": "lastname 1",
+    "mobilePhone": "+71111111111"
+  },
+  {
+    "firstname": "firstname 2",
+    "lastname": "lastname 2",
+    "mobilePhone": "+71111111112"
+  }
+]

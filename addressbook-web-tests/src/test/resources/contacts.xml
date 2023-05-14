@@ -1,0 +1,17 @@
+<list>
+  <contact>
+    <firstname>firstname 0</firstname>
+    <lastname>lastname 0</lastname>
+    <mobilePhone>+71111111110</mobilePhone>
+  </contact>
+  <contact>
+    <firstname>firstname 1</firstname>
+    <lastname>lastname 1</lastname>
+    <mobilePhone>+71111111111</mobilePhone>
+  </contact>
+  <contact>
+    <firstname>firstname 2</firstname>
+    <lastname>lastname 2</lastname>
+    <mobilePhone>+71111111112</mobilePhone>
+  </contact>
+</list>
