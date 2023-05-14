@@ -7,7 +7,8 @@ import ru.stqa.pft.addressbook.appmanager.ApplicationManager;
 
 public class TestBase {
 
-    protected static final ApplicationManager app = new ApplicationManager(Browser.CHROME.browserName());
+    protected static final ApplicationManager app
+            = new ApplicationManager(System.getProperty("browser", Browser.CHROME.browserName()));
 //    protected static final ApplicationManager app = new ApplicationManager(Browser.EDGE.browserName());
 //    protected static final ApplicationManager app = new ApplicationManager(Browser.FIREFOX.browserName());
 
