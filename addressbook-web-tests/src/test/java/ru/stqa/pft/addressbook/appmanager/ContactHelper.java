@@ -45,13 +45,10 @@ public class ContactHelper extends HelperBase{
             return;
         }
 
-
-
         if (creation) {
-            if(isElementPresentInList(By.name("new_group"), contactData.getGroup())) {
-                new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
-            } else {
-                new Select(wd.findElement(By.name("new_group"))).selectByValue("[none]");
+            if(contactData.getGroups().size() > 0) {
+                Assert.assertTrue(contactData.getGroups().size() == 1);
+                new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroups().iterator().next().getName());
             }
         } else {
             Assert.assertFalse(isElementPresent(By.name("new_group")));
