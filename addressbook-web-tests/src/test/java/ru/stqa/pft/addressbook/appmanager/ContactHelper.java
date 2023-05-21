@@ -80,6 +80,20 @@ public class ContactHelper extends HelperBase{
         wd.switchTo().alert().accept();
     }
 
+    private void addSelectedContractToGroup() {
+        click(By.name("to_group"));
+        click(By.name("add"));
+//        wd.findElement(By.xpath("//select[@name='to_group']/option[@value='" + id + "']")).click();
+    }
+
+    private void removeSelectedContractFromGroup() {
+        click(By.name("remove"));
+    }
+
+    private void selectGroupOnMainPage(int id) {
+        wd.findElement(By.xpath("//select[@name='group']/option[@value='" + id + "']")).click();
+    }
+
     public void create(ContactData contact) {
         initContactCreation();
         fillContactForm(contact, true);
@@ -97,6 +111,19 @@ public class ContactHelper extends HelperBase{
     public void delete(ContactData contact) {
         selectContractById(contact.getId());
         deleteSelectedContract();
+        home();
+    }
+
+    public void addToGroup(ContactData contact) {
+        selectContractById(contact.getId());
+        addSelectedContractToGroup();
+        home();
+    }
+
+    public void removeFromGroup(ContactData contact) {
+        selectGroupOnMainPage(contact.getGroups().iterator().next().getId());
+        selectContractById(contact.getId());
+        removeSelectedContractFromGroup();
         home();
     }
 
