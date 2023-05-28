@@ -1,50 +1,65 @@
 package ru.stqa.pft.addressbook.tests;
 
+import org.hibernate.SessionBuilder;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
-import ru.stqa.pft.addressbook.model.Groups;
-
-
-import java.util.List;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.testng.Assert.assertEquals;
 
 public class ContactAddToGroupTests extends TestBase {
+
+    ContactData contact;
+    GroupData group;
+    private boolean groupCreated;
+    private boolean contactCreated;
 
     @BeforeMethod
     public void ensurePreconditions() {
         if (app.db().groups().size() == 0) {
             app.goTo().GroupPage();
             app.group().create(new GroupData().withName("test_group"));
+            group = app.db().groups().iterator().next();
+            groupCreated = true;
         }
 
-        if (app.contact().all().size() == 0) {
+        if (app.db().contacts().size() == 0) {
             app.contact().create(new ContactData()
                     .withFirstName("Ivan").withLastName("Ivanov").withMobilePhone("+71111111111"));
+            contact = app.db().contacts().iterator().next();
+            contactCreated = true;
         }
 
+        if (!(contactCreated && groupCreated)) {
+            for (GroupData g : app.db().groups()) {
+                for (ContactData c : app.db().contacts()) {
+                    if (!c.getGroups().contains(g)) {
+                        contact = c;
+                        group = g;
+                        return;
+                    }
+                }
+            }
+            contact = app.db().contacts().iterator().next();
+            app.goTo().GroupPage();
+            group = new GroupData().withName("group_" + (int) (Math.random() * 1000));
+            app.group().create(group);
+            app.goTo().homePage();
+        }
     }
 
     @Test
     public void testContactAddToGroup() throws Exception {
-        Contacts contactsBefore = app.db().contacts();
-        ContactData contact = contactsBefore.iterator().next();
 
-        Groups before = contact.getGroups();
-        System.out.println(before + "before");
+        Contacts before = app.db().contacts();
+        ContactData contactWithAddedGroup = contact.inGroup(group);
 
-        app.contact().addToGroup(contact);
+        app.contact().addToGroup(contact.getId(), group.getName());
 
-        Contacts contactsAfter = app.db().contacts();
-        ContactData contactAfter = contactsAfter.iterator().next().withId(contact.getId());
-        Groups after = contactAfter.getGroups();
-        System.out.println(after + "after");
-//        assertThat(after, equalTo(
-//                before.withAdded(group.withId(after.stream().mapToInt(GroupData::getId).max().getAsInt()))));
+        Contacts after = app.db().contacts();
+        assertThat(after, equalTo(before.without(contact).withAdded(contactWithAddedGroup)));
     }
 }

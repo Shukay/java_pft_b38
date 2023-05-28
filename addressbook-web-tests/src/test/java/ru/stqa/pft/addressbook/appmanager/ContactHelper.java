@@ -10,7 +10,7 @@ import ru.stqa.pft.addressbook.model.Contacts;
 
 import java.util.*;
 
-public class ContactHelper extends HelperBase{
+public class ContactHelper extends HelperBase {
 
     public ContactHelper(WebDriver wd) {
         super(wd);
@@ -46,7 +46,7 @@ public class ContactHelper extends HelperBase{
         }
 
         if (creation) {
-            if(contactData.getGroups().size() > 0) {
+            if (contactData.getGroups().size() > 0) {
                 Assert.assertTrue(contactData.getGroups().size() == 1);
                 new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroups().iterator().next().getName());
             }
@@ -80,18 +80,18 @@ public class ContactHelper extends HelperBase{
         wd.switchTo().alert().accept();
     }
 
-    private void addSelectedContractToGroup() {
+    private void addSelectedContractToGroup(String groupName) {
         click(By.name("to_group"));
+        wd.findElement(By.xpath(String.format("//select[@name='to_group']/option[text()='%s']", groupName))).click();
         click(By.name("add"));
-//        wd.findElement(By.xpath("//select[@name='to_group']/option[@value='" + id + "']")).click();
     }
 
     private void removeSelectedContractFromGroup() {
         click(By.name("remove"));
     }
 
-    private void selectGroupOnMainPage(int id) {
-        wd.findElement(By.xpath("//select[@name='group']/option[@value='" + id + "']")).click();
+    private void selectGroupOnMainPage(String groupName) {
+        wd.findElement(By.xpath(String.format("//select[@name='group']/option[text()='%s']", groupName))).click();
     }
 
     public void create(ContactData contact) {
@@ -114,15 +114,15 @@ public class ContactHelper extends HelperBase{
         home();
     }
 
-    public void addToGroup(ContactData contact) {
-        selectContractById(contact.getId());
-        addSelectedContractToGroup();
+    public void addToGroup(int contactId, String groupName) {
+        selectContractById(contactId);
+        addSelectedContractToGroup(groupName);
         home();
     }
 
-    public void removeFromGroup(ContactData contact) {
-        selectGroupOnMainPage(contact.getGroups().iterator().next().getId());
-        selectContractById(contact.getId());
+    public void removeFromGroup(int contactId, String groupName) {
+        selectGroupOnMainPage(groupName);
+        selectContractById(contactId);
         removeSelectedContractFromGroup();
         home();
     }
