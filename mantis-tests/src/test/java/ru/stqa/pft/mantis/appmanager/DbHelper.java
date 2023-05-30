@@ -5,31 +5,27 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import ru.stqa.pft.mantis.model.UserData;
-import ru.stqa.pft.mantis.model.Users;
+import ru.stqa.pft.mantis.model.User;
 
 import java.util.List;
 
 public class DbHelper {
-
     private final SessionFactory sessionFactory;
-    private final ApplicationManager app;
 
-    public DbHelper(ApplicationManager app) {
-        this.app = app;
+    public DbHelper() {
         // A SessionFactory is set up once for an application!
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
                 .configure() // configures settings from hibernate.cfg.xml
                 .build();
-        sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+        sessionFactory = new MetadataSources( registry ).buildMetadata().buildSessionFactory();
     }
 
-    public Users users() {
+    public List<User> users () {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        List<UserData> result = session.createQuery("from UserData").list();
+        List<User> result = session.createQuery( "from User where enabled = 1 and username <> 'administrator'" ).list();
         session.getTransaction().commit();
         session.close();
-        return new Users(result);
+        return result;
     }
 }

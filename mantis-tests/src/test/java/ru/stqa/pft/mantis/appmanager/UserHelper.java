@@ -1,15 +1,15 @@
 package ru.stqa.pft.mantis.appmanager;
 
 import org.openqa.selenium.By;
+import ru.stqa.pft.mantis.model.User;
 
-public class UserHelper extends BaseHelper {
-
+public class UserHelper extends HelperBase {
     public UserHelper(ApplicationManager app) {
         super(app);
     }
 
-    public void resetUserPassword(String username) {
-        click(By.linkText(username));
-        click(By.cssSelector("input[value='Reset Password']"));
+    public void resetPassword(User user){
+        wd.get(app.getProperty("web.baseUrl") + "/manage_user_edit_page.php" + "?user_id=" + user.getId());
+        click(By.xpath("//input[@value='Сбросить пароль']"));
     }
 }

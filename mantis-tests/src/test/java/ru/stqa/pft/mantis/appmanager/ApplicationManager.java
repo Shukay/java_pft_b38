@@ -8,6 +8,7 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.Browser;
+import ru.stqa.pft.mantis.model.User;
 
 import java.io.File;
 import java.io.FileReader;
@@ -124,10 +125,24 @@ public class ApplicationManager {
     }
 
     public DbHelper db() {
-        if (dbHelper == null) {
-            dbHelper = new DbHelper(this);
+        if (dbHelper == null){
+            dbHelper = new DbHelper();
         }
         return dbHelper;
+    }
+
+    public UserHelper user() {
+        if (userHelper == null){
+            userHelper = new UserHelper(this);
+        }
+        return userHelper;
+    }
+
+    public NavigationHelper navigation() {
+        if (navigationHelper == null){
+            navigationHelper = new NavigationHelper(this);
+        }
+        return navigationHelper;
     }
 
 }
