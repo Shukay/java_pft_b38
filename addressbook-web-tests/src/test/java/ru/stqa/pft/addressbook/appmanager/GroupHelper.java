@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import ru.stqa.pft.addressbook.model.GroupData;
 import ru.stqa.pft.addressbook.model.Groups;
+import ru.stqa.pft.addressbook.model.ContactData;
 
 import java.util.List;
 
@@ -96,6 +97,24 @@ public class GroupHelper extends HelperBase{
             groupCache.add(new GroupData().withId(id).withName(name));
         }
         return new Groups(groupCache);
+    }
+
+    public GroupData getGroupNotContact(Groups groups, ContactData contact) {
+        for (GroupData group: groups){
+            if (group.getContacts().stream().allMatch((x) -> x.getId() != contact.getId())){
+                return group;
+            }
+        }
+        return null;
+    }
+
+    public GroupData getGroupContact(Groups groups){
+        for (GroupData group: groups){
+            if (group.getContacts().size() > 0){
+                return group;
+            }
+        }
+        return null;
     }
 
 }

@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
+import ru.stqa.pft.addressbook.model.GroupData;
 
 import java.util.*;
 
@@ -72,7 +73,7 @@ public class ContactHelper extends HelperBase {
     }
 
     public void selectContractById(int id) {
-        wd.findElement(By.cssSelector("input[value='" + id + "']")).click();
+        wd.findElement(By.xpath("//input[@id='" + id + "']")).click();
     }
 
     public void deleteSelectedContract() {
@@ -114,14 +115,14 @@ public class ContactHelper extends HelperBase {
         home();
     }
 
-    public void addToGroup(int contactId, String groupName) {
+    public void addToGroup(int contactId, GroupData group) {
         selectContractById(contactId);
-        addSelectedContractToGroup(groupName);
+        addSelectedContractToGroup(group.getName());
         home();
     }
 
-    public void removeFromGroup(int contactId, String groupName) {
-        selectGroupOnMainPage(groupName);
+    public void removeFromGroup(int contactId, GroupData group) {
+        selectGroupOnMainPage(group.getName());
         selectContractById(contactId);
         removeSelectedContractFromGroup();
         home();

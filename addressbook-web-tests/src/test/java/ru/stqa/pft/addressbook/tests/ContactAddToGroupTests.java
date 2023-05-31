@@ -55,17 +55,14 @@ public class ContactAddToGroupTests extends TestBase {
     @Test
     public void testContactAddToGroup() throws Exception {
 
-        Contacts before = app.db().contacts();
-        Groups groupsBefore = contact.getGroups();
-        System.out.println(groupsBefore);
-        ContactData contactWithAddedGroup = contact.inGroup(group);
+        ContactData contact = app.db().contacts().iterator().next();
+        Groups groups = app.db().groups();
 
-        app.contact().addToGroup(contact.getId(), group.getName());
+        GroupData before = app.group().getGroupNotContact(groups, contact);
+        app.contact().addToGroup(contact.getId(), before);
+        GroupData after = app.db().group(before.getId());
 
-        Contacts after = app.db().contacts();
-        Groups groupsAfter = contact.getGroups();
-        System.out.println(groupsAfter);
-//        assertThat(after, equalTo(before.without(contact).withAdded(contactWithAddedGroup)));
-        assertThat(groupsAfter, equalTo(groupsBefore.withAdded(group)));
+        assertThat(after.getContacts(), equalTo(before.getContacts().withAdded(contact)));
+
     }
 }
