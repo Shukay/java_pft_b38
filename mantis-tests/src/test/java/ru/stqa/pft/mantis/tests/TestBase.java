@@ -6,6 +6,10 @@ import org.testng.annotations.BeforeSuite;
 import ru.lanwen.verbalregex.VerbalExpression;
 import ru.stqa.pft.mantis.appmanager.ApplicationManager;
 import ru.stqa.pft.mantis.model.MailMessage;
+import org.testng.SkipException;
+import javax.xml.rpc.ServiceException;
+import java.net.MalformedURLException;
+import java.rmi.RemoteException;
 
 import java.io.File;
 import java.util.List;
@@ -35,6 +39,16 @@ public class TestBase {
         MailMessage mailMessage = mailMessages.stream().filter((x) -> x.to.equals(email)).reduce((x, y) -> y).get();
         VerbalExpression regex = VerbalExpression.regex().find("http://").nonSpace().oneOrMore().build();
         return regex.getText(mailMessage.text);
+    }
+
+    public void skipIfNotFixed(int issueId) throws MalformedURLException, ServiceException, RemoteException {
+        if (isIssueOpen(issueId)) {
+            throw new SkipException("Ignored because of issue " + issueId);
+        }
+    }
+
+    private boolean isIssueOpen(int issueId) throws MalformedURLException, ServiceException, RemoteException {
+        return app.soap().isIssueOpen(issueId);
     }
 
 }

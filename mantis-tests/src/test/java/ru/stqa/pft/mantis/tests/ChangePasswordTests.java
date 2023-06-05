@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
+import javax.xml.rpc.ServiceException;
 
 import static org.testng.Assert.assertTrue;
 
@@ -22,7 +23,8 @@ public class ChangePasswordTests extends TestBase {
     }
 
     @Test
-    public void testChangePassword() throws MessagingException, IOException {
+    public void testChangePassword() throws MessagingException, IOException, ServiceException {
+        skipIfNotFixed(2);
         User user = app.db().users().stream().findAny().orElse(null);
         int countMsg = 1;
         if (user == null){
