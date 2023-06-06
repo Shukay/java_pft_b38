@@ -10,6 +10,7 @@ import org.testng.SkipException;
 import javax.xml.rpc.ServiceException;
 import java.net.MalformedURLException;
 import java.rmi.RemoteException;
+import java.io.IOException;
 
 import java.io.File;
 import java.util.List;
@@ -49,6 +50,16 @@ public class TestBase {
 
     private boolean isIssueOpen(int issueId) throws MalformedURLException, ServiceException, RemoteException {
         return app.soap().isIssueOpen(issueId);
+    }
+
+    public void skipIfNotFixedBugify(int issueId) throws IOException, ServiceException {
+        if (isIssueOpenBugify(issueId)) {
+            throw new SkipException("Ignored because of issue " + issueId);
+        }
+    }
+
+    private boolean isIssueOpenBugify(int issueId) throws IOException, ServiceException {
+        return app.rest().isIssueOpen(issueId);
     }
 
 }

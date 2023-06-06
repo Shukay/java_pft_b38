@@ -24,7 +24,8 @@ public class ChangePasswordTests extends TestBase {
 
     @Test
     public void testChangePassword() throws MessagingException, IOException, ServiceException {
-        skipIfNotFixed(2);
+        //skipIfNotFixed(2);
+        skipIfNotFixedBugify(416);
         User user = app.db().users().stream().findAny().orElse(null);
         int countMsg = 1;
         if (user == null){

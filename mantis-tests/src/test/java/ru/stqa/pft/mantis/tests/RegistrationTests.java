@@ -23,7 +23,8 @@ public class RegistrationTests extends TestBase{
 
     @Test
     public void testRegistration() throws MessagingException, IOException, ServiceException {
-        skipIfNotFixed(3);
+        //skipIfNotFixed(3);
+        skipIfNotFixedBugify(417);
         long now = System.currentTimeMillis();
         String user = String.format("user%s", now);
         String password = "password";
