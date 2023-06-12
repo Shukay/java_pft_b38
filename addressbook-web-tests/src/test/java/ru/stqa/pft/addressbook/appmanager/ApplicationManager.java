@@ -43,6 +43,7 @@ public class ApplicationManager {
 
         if ("".equals(properties.getProperty("selenium.server"))) {
             if (browser.equals(Browser.CHROME.browserName())) {
+                System.setProperty("webdriver.chrome.driver", "C:\\Tools\\chromedriver\\chromedriver.exe");
                 ChromeOptions options = new ChromeOptions();
                 options.addArguments("--remote-allow-origins=*");
                 wd = new ChromeDriver(options);
