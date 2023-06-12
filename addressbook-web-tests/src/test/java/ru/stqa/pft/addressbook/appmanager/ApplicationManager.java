@@ -41,7 +41,7 @@ public class ApplicationManager {
 
         dbHelper = new DbHelper();
 
-        if ("".equals(properties.getProperty("selenium.server"))) {
+//        if ("".equals(properties.getProperty("selenium.server"))) {
             if (browser.equals(Browser.CHROME.browserName())) {
                 ChromeOptions options = new ChromeOptions();
                 options.addArguments("--remote-allow-origins=*");
@@ -53,12 +53,12 @@ public class ApplicationManager {
             } else if (browser.equals(Browser.FIREFOX.browserName())) {
                 wd = new FirefoxDriver();
             }
-        } else {
-            DesiredCapabilities capabilities = new DesiredCapabilities();
-            capabilities.setBrowserName(browser);
-//            capabilities.setPlatform(Platform.fromString(System.getProperty("platform", "win7")));
-            wd = new RemoteWebDriver(new URL(properties.getProperty("selenium.server")), capabilities);
-        }
+//        } else {
+//            DesiredCapabilities capabilities = new DesiredCapabilities();
+//            capabilities.setBrowserName(browser);
+////            capabilities.setPlatform(Platform.fromString(System.getProperty("platform", "win7")));
+//            wd = new RemoteWebDriver(new URL(properties.getProperty("selenium.server")), capabilities);
+//        }
 
         wd.manage().timeouts().implicitlyWait(Duration.ofSeconds(0));
         wd.get(properties.getProperty("web.baseUrl"));
