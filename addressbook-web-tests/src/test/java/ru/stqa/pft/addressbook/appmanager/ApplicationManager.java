@@ -8,10 +8,13 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.Browser;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URL;
 import java.time.Duration;
 import java.util.Properties;
 
@@ -37,16 +40,22 @@ public class ApplicationManager {
 
         dbHelper = new DbHelper();
 
-        if (browser.equals(Browser.CHROME.browserName())) {
-            ChromeOptions options = new ChromeOptions();
-            options.addArguments("--remote-allow-origins=*");
-            wd = new ChromeDriver(options);
-        } else if (browser.equals(Browser.EDGE.browserName())){
-            EdgeOptions options = new EdgeOptions();
-            options.addArguments("--remote-allow-origins=*");
-            wd = new EdgeDriver(options);
-        } else if (browser.equals(Browser.FIREFOX.browserName())){
-            wd = new FirefoxDriver();
+        if ("".equals(properties.getProperty("selenium.server"))) {
+            if (browser.equals(Browser.CHROME.browserName())) {
+                ChromeOptions options = new ChromeOptions();
+                options.addArguments("--remote-allow-origins=*");
+                wd = new ChromeDriver(options);
+            } else if (browser.equals(Browser.EDGE.browserName())) {
+                EdgeOptions options = new EdgeOptions();
+                options.addArguments("--remote-allow-origins=*");
+                wd = new EdgeDriver(options);
+            } else if (browser.equals(Browser.FIREFOX.browserName())) {
+                wd = new FirefoxDriver();
+            }
+        } else {
+            DesiredCapabilities capabilities = new DesiredCapabilities();
+            capabilities.setBrowserName(browser);
+            wd = new RemoteWebDriver(new URL(properties.getProperty("selenium.server")), capabilities);
         }
 
         wd.manage().timeouts().implicitlyWait(Duration.ofSeconds(0));
